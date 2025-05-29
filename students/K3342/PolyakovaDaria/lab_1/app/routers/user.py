@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Body
 from sqlmodel import Session, select
 from app.db import get_session
-from app.models import User
+from app.models import User, UserTaskLink, Task
 from app.utils.security import hash_password, verify_password, get_current_user
 
 router = APIRouter()
@@ -17,7 +17,7 @@ def get_users(session: Session = Depends(get_session), current_user: str = Depen
     return users
 
 
-@router.put("/users/change-password")
+@router.put("/change-password")
 def change_password(
         old_password: str = Body(..., embed=True),
         new_password: str = Body(..., embed=True),
@@ -37,3 +37,4 @@ def change_password(
     session.add(user)
     session.commit()
     return {"message": "Password changed successfully"}
+

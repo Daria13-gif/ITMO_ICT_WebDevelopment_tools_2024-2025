@@ -2,8 +2,10 @@ from fastapi import FastAPI, Depends
 from app.db import init_db
 from app.routers.auth import router as auth_router
 from app.routers.user import router as user_router
+from app.routers.tasks import router as task_router
 from app.utils.security import get_current_user
 from fastapi.openapi.utils import get_openapi
+
 
 app = FastAPI()
 
@@ -16,6 +18,8 @@ def on_startup():
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 
 app.include_router(user_router, prefix="/users", tags=["Users"])
+
+app.include_router(task_router, prefix="/tasks", tags=["Tasks"])
 
 
 @app.get("/")
